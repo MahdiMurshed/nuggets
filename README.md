@@ -1,1 +1,1 @@
-# Picking Nuggets & Training Playground
+# Training Playground
