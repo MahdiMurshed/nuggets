@@ -27,6 +27,11 @@ function Index() {
             state
           </Link>
         </li>
+        <li>
+          <Link to="/css-animation/layout" className="[&.active]:font-bold">
+            layout
+          </Link>
+        </li>
       </ul>
     </div>
   );

@@ -22,6 +22,9 @@ const CssAnimationIndexLazyImport = createFileRoute('/css-animation/')()
 const CssAnimationStateIndexLazyImport = createFileRoute(
   '/css-animation/state/',
 )()
+const CssAnimationLayoutIndexLazyImport = createFileRoute(
+  '/css-animation/layout/',
+)()
 const CssAnimationKeyframeIndexLazyImport = createFileRoute(
   '/css-animation/keyframe/',
 )()
@@ -56,6 +59,14 @@ const CssAnimationStateIndexLazyRoute = CssAnimationStateIndexLazyImport.update(
 ).lazy(() =>
   import('./routes/css-animation/state/index.lazy').then((d) => d.Route),
 )
+
+const CssAnimationLayoutIndexLazyRoute =
+  CssAnimationLayoutIndexLazyImport.update({
+    path: '/css-animation/layout/',
+    getParentRoute: () => rootRoute,
+  } as any).lazy(() =>
+    import('./routes/css-animation/layout/index.lazy').then((d) => d.Route),
+  )
 
 const CssAnimationKeyframeIndexLazyRoute =
   CssAnimationKeyframeIndexLazyImport.update({
@@ -99,6 +110,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CssAnimationKeyframeIndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/css-animation/layout/': {
+      preLoaderRoute: typeof CssAnimationLayoutIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/css-animation/state/': {
       preLoaderRoute: typeof CssAnimationStateIndexLazyImport
       parentRoute: typeof rootRoute
@@ -114,6 +129,7 @@ export const routeTree = rootRoute.addChildren([
   CssAnimationIndexLazyRoute,
   CssAnimationChoreographyIndexLazyRoute,
   CssAnimationKeyframeIndexLazyRoute,
+  CssAnimationLayoutIndexLazyRoute,
   CssAnimationStateIndexLazyRoute,
 ])
 

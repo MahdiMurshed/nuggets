@@ -6,6 +6,7 @@ export default {
     animation: {
       "slide-in": "slide-in 0.8s cubic-bezier(0.5, 0, 0.5, 1)",
       shake: "shake 1s ease",
+      content: " content 0.3s 0.3s both",
     },
     keyframes: {
       "slide-in": {
@@ -22,6 +23,10 @@ export default {
         "0%, 100%": {
           transform: "translateX(0)",
         },
+      },
+      content: {
+        "0%": { opacity: 0, transform: "translateX(-2rem)" },
+        "100%": { opacity: 1, transform: "translateX(0)" },
       },
     },
   },
