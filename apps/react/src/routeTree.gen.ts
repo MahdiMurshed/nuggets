@@ -18,7 +18,11 @@ import { Route as rootRoute } from './routes/__root'
 
 const AboutLazyImport = createFileRoute('/about')()
 const IndexLazyImport = createFileRoute('/')()
+const FramerMotionIndexLazyImport = createFileRoute('/framer-motion/')()
 const CssAnimationIndexLazyImport = createFileRoute('/css-animation/')()
+const FramerMotionInteractivityIndexLazyImport = createFileRoute(
+  '/framer-motion/interactivity/',
+)()
 const CssAnimationStateIndexLazyImport = createFileRoute(
   '/css-animation/state/',
 )()
@@ -44,12 +48,29 @@ const IndexLazyRoute = IndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
+const FramerMotionIndexLazyRoute = FramerMotionIndexLazyImport.update({
+  path: '/framer-motion/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/framer-motion/index.lazy').then((d) => d.Route),
+)
+
 const CssAnimationIndexLazyRoute = CssAnimationIndexLazyImport.update({
   path: '/css-animation/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
   import('./routes/css-animation/index.lazy').then((d) => d.Route),
 )
+
+const FramerMotionInteractivityIndexLazyRoute =
+  FramerMotionInteractivityIndexLazyImport.update({
+    path: '/framer-motion/interactivity/',
+    getParentRoute: () => rootRoute,
+  } as any).lazy(() =>
+    import('./routes/framer-motion/interactivity/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 
 const CssAnimationStateIndexLazyRoute = CssAnimationStateIndexLazyImport.update(
   {
@@ -102,6 +123,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CssAnimationIndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/framer-motion/': {
+      preLoaderRoute: typeof FramerMotionIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/css-animation/choreography/': {
       preLoaderRoute: typeof CssAnimationChoreographyIndexLazyImport
       parentRoute: typeof rootRoute
@@ -118,6 +143,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CssAnimationStateIndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/framer-motion/interactivity/': {
+      preLoaderRoute: typeof FramerMotionInteractivityIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -127,10 +156,12 @@ export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
   AboutLazyRoute,
   CssAnimationIndexLazyRoute,
+  FramerMotionIndexLazyRoute,
   CssAnimationChoreographyIndexLazyRoute,
   CssAnimationKeyframeIndexLazyRoute,
   CssAnimationLayoutIndexLazyRoute,
   CssAnimationStateIndexLazyRoute,
+  FramerMotionInteractivityIndexLazyRoute,
 ])
 
 /* prettier-ignore-end */
