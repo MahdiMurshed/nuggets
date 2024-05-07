@@ -22,20 +22,59 @@ export function Step({
     let status = determineStatus();
 
     return (
-        <div
-            className={cn("flex h-10 w-10 items-center justify-center rounded-full border-2 font-semibold", {
-                "border-slate-200 bg-white text-slate-400": status === "inactive",
-                "border-blue-500 bg-white text-blue-500": status === "active",
-                "border-blue-500 bg-blue-500": status === "complete",
-            })}
-        >
-            <div className="flex items-center justify-center">
-                {status === "complete" ? (
-                    <CheckIcon className="h-6 w-6 text-white" />
-                ) : (
-                    <span>{step}</span>
+        <m.div animate={status} className="relative">
+            <m.div className="absolute inset-0 bg-blue-200 rounded-full"
+                variants={{
+                    active: {
+                        scale: 1,
+                        transition: {
+                            delay: 0,
+                            duration: 0.2,
+                        }
+                    },
+                    complete: {
+                        scale: 1.25
+                    }
+                }}
+                transition={{
+                    delay: 0.2,
+                    duration: 0.6,
+                    type: "tween",
+                    ease: "circInOut"
+                }}
+            ></m.div>
+            <m.div
+                initial={false}
+                transition={{
+                    duration: 0.2
+                }}
+                variants={{
+                    inactive: {
+                        backgroundColor: "var(--white)",
+                        borderColor: "var(--slate-200)",
+                        color: "var(--slate-400)"
+                    },
+                    active: {
+                        backgroundColor: "var(--white)",
+                        borderColor: "var(--blue-500)",
+                        color: "var(--blue-500)"
+                    },
+                    complete: {
+                        backgroundColor: "var(--blue-500)",
+                        borderColor: "var(--blue-500)",
+                    }
+                }}
+                className={cn("relative flex h-10 w-10 items-center justify-center rounded-full border-2 font-semibold"
                 )}
-            </div>
-        </div>
+            >
+                <div className="flex items-center justify-center">
+                    {status === "complete" ? (
+                        <CheckIcon className="h-6 w-6 text-white" />
+                    ) : (
+                        <span>{step}</span>
+                    )}
+                </div>
+            </m.div>
+        </m.div>
     );
 }
