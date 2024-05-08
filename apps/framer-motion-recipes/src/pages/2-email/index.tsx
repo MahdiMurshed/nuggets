@@ -1,5 +1,7 @@
 import { useState } from "react";
 import * as Icons from "@heroicons/react/outline";
+import { m } from "@/utils"
+import { AnimatePresence } from "framer-motion";
 
 let titles = [
   ["Apple's newest iPhone is here", "Watch our July event"],
@@ -17,7 +19,6 @@ export default function Email() {
   const [messages, setMessages] = useState(
     Array.from({ length: 11 }, (_, i) => i)
   );
-  console.log({ messages })
 
   function addMessage() {
     let newId = (messages.at(-1) || 0) + 1;
@@ -43,21 +44,39 @@ export default function Email() {
             </div>
           </div>
           <ul className="overflow-y-scroll px-3 pt-2">
-            {[...messages].reverse().map((mid) => (
-              <li key={mid} className="relative py-0.5">
-                <button
-                  onClick={() => archiveMessage(mid)}
-                  className="block w-full cursor-pointer truncate rounded py-3 px-3 text-left hover:bg-slate-200"
-                >
-                  <p className="truncate text-sm font-medium text-slate-500">
-                    {titles[mid % titles.length][0]}
-                  </p>
-                  <p className="truncate text-xs text-slate-400">
-                    {titles[mid % titles.length][1]}
-                  </p>
-                </button>
-              </li>
-            ))}
+            {/* Needed for exit animation */}
+            <AnimatePresence initial={false}>
+              {[...messages].reverse().map((mid) => (
+                <m.li key={mid}
+                  initial={{
+                    opacity: 0,
+                    height: 0,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    height: "auto",
+                  }}
+                  exit={{
+                    opacity: 0,
+                    height: 0,
+                  }}
+                  className="relative">
+                  <div className="py-0.5">
+                    <button
+                      onClick={() => archiveMessage(mid)}
+                      className="block w-full cursor-pointer truncate rounded py-3 px-3 text-left hover:bg-slate-200"
+                    >
+                      <p className="truncate text-sm font-medium text-slate-500">
+                        {titles[mid % titles.length][0]}
+                      </p>
+                      <p className="truncate text-xs text-slate-400">
+                        {titles[mid % titles.length][1]}
+                      </p>
+                    </button>
+                  </div>
+                </m.li>
+              ))}
+            </AnimatePresence>
           </ul>
         </div>
         <div className="flex-1 overflow-y-scroll border-l px-8 py-8">
