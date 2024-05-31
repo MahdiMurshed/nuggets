@@ -23,7 +23,6 @@ export default function Page() {
           <div className="relative overflow-hidden">
             <m.div
               animate={{ x: `-${index * 100}%` }}
-              transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
               className="flex"
             >
               {images.map(image =>
